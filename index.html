@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeafletJS</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <style>
+        html,
+        body,
+        #map {
+            height: 100%;
+            margin: 0;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="">
+        </script>
+    <script>
+        //inisialisasi map
+        var map = L.map('map').setView([-7.424, 109.871], 16);
+        //basemap
+
+        var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution:
+                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        });
+
+        var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        });
+
+        var rupabumiindonesia = L.tileLayer('https://geoservices.big.go.id/rbi/rest/services/BASEMAP/Rupabumi_Indonesia/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Badan Informasi Geospasial'
+        });
+        var Google_Terrain = L.tileLayer('https://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
+            maxZoom: 20,
+            subdomains: ["mt0", "mt1", "mt2", "mt3"],
+            attribution: 'Google'
+        });
+        var Google_Satellite = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+            maxZoom: 20,
+            subdomains: ["mt0", "mt1", "mt2", "mt3"],
+            attribution: 'Google'
+        });
+        var baseMaps = {
+            "OpenStreetMap": osm,
+            "Esri World Imagery": Esri_WorldImagery,
+            "Rupa Bumi Indonesia": rupabumiindonesia,
+            "Google Terrain": Google_Terrain,
+            "Google Satelitte": Google_Satellite
+        };
+        var marker = L.marker([-7.424, 109.871]);
+        var marker2 = L.marker([-7.424985633761193, 109.87145659460177])
+        var marker3 = L.marker([-7.4248558681521155, 109.85677081728186])
+
+        marker.addTo(map);
+        marker2.addTo(map);
+        marker3.addTo(map);
+
+        // Popup
+        marker.bindPopup("<b>Wonosobo</b><br>Wonosobo adalah sebuah kecamatan sekaligus menjadi ibu kota kabupaten di Kabupaten Wonosobo, Provinsi Jawa Tengah, Indonesia. Luas wilayah kecamatan ini sekitar 33.00 km² yang terbagi menjadi 20 desa/kelurahan. Jumlah penduduknya 86.977 jiwa. Pusat pemerintahan Kecamatan Wonosobo berada di Kelurahan Jaraksari.");
+        marker.openPopup();
+        marker2.bindTooltip("<b>Tugu Biawak</b>");
+        marker3.bindTooltip("<b>Indomaret</b>");
+
+        // Circle
+        var circle = L.circle([-7.424, 109.871], {
+            color: "blue",
+            opacity: 1,
+            fillColor: "#87CEEB",
+            fillOpacity: 0.1,
+            radius: 1500,
+        });
+
+        // Menambahkan circle ke dalam peta
+        circle.addTo(map);
+
+        circle.bindPopup("<b>Hai</b><br>Ini adalah area dolan Luhur.");
+        circle.bindTooltip("ini Tooltip", { sticky: true });
+
+        // Polyline
+        var vertexPolyline = [
+            [-7.424, 109.871],
+            [-7.424985633761193, 109.87145659460177],
+            [-7.4248558681521155, 109.85677081728186],
+        ];
+        var polyline = L.polyline(vertexPolyline, {
+            color: "#87CEEB",
+            weight: 3,
+            opacity: 1,
+        });
+        polyline.addTo(map);
+
+        var vertexPolygon = [
+            [-7.424, 109.871],
+            [-7.424985633761193, 109.87145659460177],
+            [-7.4248558681521155, 109.85677081728186],
+            [-7.424, 109.871],
+        ];
+        var polygon = L.polygon(vertexPolygon, {
+            color: "Gray",
+            weight: 3,
+            opacity: 1,
+            fillColor: "#f5f5f5",
+            fillOpacity: 0.3,
+        });
+        polygon.addTo(map);
+
+        var overlayMaps = {
+            "Wonosobo": marker,
+            "Tugu Biawak": marker2,
+            "Indomaret": marker3,
+            "Circle": circle,
+            "Garis": polyline,
+            "poligon": polygon
+        };
+
+        var controllayer = L.control.layers(baseMaps, overlayMaps, { collapsed: false });
+        controllayer.addTo(map);
+
+        var scale = L.control.scale({
+            position: "bottomright",
+            imperial: false,
+        });
+        scale.addTo(map);
+
+        // Menambahkan basemap ke dalam peta
+        Esri_WorldImagery.addTo(map);
+
+
+
+    </script>
+</body>
+
+</html>
